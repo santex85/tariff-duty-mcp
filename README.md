@@ -55,7 +55,7 @@ APIs live on every call: the USITC Harmonized Tariff Schedule REST API and the U
 ### Estimation method
 
 - **US**: duty on `customs_value` (transaction value; freight and insurance excluded from the dutiable value but
-  added to landed cost). Merchandise Processing Fee 0.3464% with the FY2026 floor $33.58 and cap $651.50 for formal
+  added to landed cost). Merchandise Processing Fee 0.3464% with the FY2027 floor $34.58 and cap $670.86 for formal
   entries (value ≥ $2,500). Harbor Maintenance Fee 0.125% for ocean freight only. Origin selects the FTA special rate for
   mapped partners (AU, BH, CA, CL, CO, IL, JO, JP, KR, MA, MX, OM, PA, PE, SG, CAFTA-DR), column 2 for CU/KP/RU/BY,
   otherwise General.
@@ -74,7 +74,8 @@ APIs live on every call: the USITC Harmonized Tariff Schedule REST API and the U
   additional codes are not computed. UK quotas, end-use reliefs and conditional suspensions are listed only.
 - `search_hs_code` for the US uses the USITC keyword search plus local re-ranking over the full heading context.
   It is a keyword match, not a classifier. The UK search uses the Trade Tariff's own fuzzy search.
-- The MPF/HMF constants are FY2026 values hard-coded in `src/server.py`. CBP adjusts them every 1 October.
+- The MPF floor and cap are FY2027 values (1 Oct 2026 – 30 Sep 2027, CBP Dec. 26-14) hard-coded in `src/server.py`.
+  CBP adjusts them every 1 October; the 0.3464% rate and the 0.125% HMF are unchanged.
 - Currency: USD for the US, GBP for the UK. No FX conversion.
 - Caps: ≤ 25 search results, ≤ 40 sub-lines listed, ≤ 6 MB per upstream response, 45 s HTTP timeout, 90 s per tool call.
 

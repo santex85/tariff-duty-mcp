@@ -25,9 +25,11 @@ DISCLAIMER = ("Estimate from public tariff data for information only. Not custom
               "origin, valuation and additional duties are decided by the customs authority; verify with a licensed "
               "customs broker or the official tariff before importing.")
 
-# US CBP user fees, fiscal year 2026 (1 Oct 2025 - 30 Sep 2026), 19 CFR 24.23 as adjusted annually by CBP.
+# US CBP user fees, fiscal year 2027 (1 Oct 2026 - 30 Sep 2027): CBP Dec. 26-14, Federal Register 2026-15530
+# (published 31 Jul 2026), Table 2 for 19 CFR 24.23. CBP adjusts the MPF floor and cap every 1 October;
+# the 0.3464% ad valorem rate is unchanged. HMF (26 U.S.C. 4461) is statutory and not adjusted.
 US_MPF_RATE = 0.3464
-US_MPF_MIN, US_MPF_MAX = 33.58, 651.50
+US_MPF_MIN, US_MPF_MAX = 34.58, 670.86
 US_HMF_RATE = 0.125
 US_FORMAL_ENTRY_THRESHOLD = 2500
 UK_LOW_VALUE_GBP = 135
@@ -114,7 +116,7 @@ async def estimate_landed_cost(code: str, market: str, customs_value: float, ori
     weight_kg / quantity: needed only when the duty includes a specific per-kg / per-item component.
     use_preference: apply the FTA/preferential rate for the origin when the data shows one (default true).
     Method (all figures are estimates):
-      US: duty on customs_value (FOB basis); MPF 0.3464% (FY2026 min $33.58, max $651.50) for formal entries
+      US: duty on customs_value (FOB basis); MPF 0.3464% (FY2027 min $34.58, max $670.86) for formal entries
           (value >= $2,500); HMF 0.125% for ocean; no sales tax at import. Chapter 99 duties NOT included.
       UK: duty on CIF (customs_value + shipping + insurance); import VAT at the standard rate from the tariff on
           (CIF + duty). Consignments <= GBP 135 are flagged (VAT normally charged at sale, no duty).
@@ -148,6 +150,10 @@ async def estimate_landed_cost(code: str, market: str, customs_value: float, ori
                 warnings.append("Value under $2,500: informal entry; a small flat MPF applies instead of the ad-valorem "
                                 "MPF and is not computed. The $800 de minimis exemption is suspended for most "
                                 "shipments since 29 Aug 2025; check current CBP rules.")
+            if basis.startswith("special") and lines["merchandiseProcessingFee"]:
+                warnings.append("A free-trade-agreement preference is applied. Goods that qualify under several US FTAs "
+                                "(e.g. USMCA, Korea, Australia, Singapore, Chile) are exempt from the MPF; this estimate "
+                                "still includes it. Check the exemption for your agreement and origin.")
             lines["harborMaintenanceFee"] = round(customs_value * US_HMF_RATE / 100, 2) \
                 if transport_mode.lower() == "ocean" else 0.0
             fees = sum(v for k, v in lines.items() if k in ("duty", "merchandiseProcessingFee", "harborMaintenanceFee")
