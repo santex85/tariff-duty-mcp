@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.santex85/tariff-duty-mcp",
+  "title": "US & UK Import Tariffs and Duty Rates",
+  "description": "US HTS and UK Trade Tariff: HS code search, duty rates by origin and rough landed-cost estimates.",
+  "repository": {
+    "url": "https://github.com/santex85/tariff-duty-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/santex85/tariff-duty-mcp/releases/download/v0.1.0/tariff-duty-mcp.mcpb",
+      "version": "0.1.0",
+      "fileSha256": "fc893126e9e93b3fd0d56f4bc75c28d10e4eb6e033fa1f69251ab0385a76a979",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
