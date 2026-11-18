@@ -1,0 +1,10 @@
+version: 1
+name: tariff-duty-mcp
+description: US HTS and UK Trade Tariff lookup - HS code search, duty rates by origin, landed-cost estimates (duty, US MPF/HMF, UK import VAT).
+runtime: python
+entry: src/server.py
+build:
+  install: python -m venv .venv && .venv/bin/pip install --no-cache-dir -r requirements.txt
+startCommand:
+  type: http
+  command: .venv/bin/python src/server.py
