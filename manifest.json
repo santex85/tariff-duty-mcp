@@ -1,0 +1,66 @@
+{
+  "manifest_version": "0.4",
+  "name": "tariff-duty-mcp",
+  "display_name": "US & UK Import Tariffs and Duty Rates",
+  "version": "0.1.0",
+  "description": "US HTS and UK Trade Tariff: HS code search, duty rates by origin and rough landed-cost estimates.",
+  "long_description": "Looks up import tariff codes and duty rates for the United States (USITC HTS) and the United Kingdom (UK Trade Tariff API) live from official keyless APIs: HS code search by product description, General/FTA/column 2 rates or UK third-country duty and preferences for a country of origin, and a rough landed-cost estimate (US duty, MPF and HMF; UK duty and import VAT) with assumptions and warnings. Reference data, not customs advice.",
+  "author": {
+    "name": "santex85",
+    "url": "https://github.com/santex85"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santex85/tariff-duty-mcp"
+  },
+  "homepage": "https://github.com/santex85/tariff-duty-mcp",
+  "support": "https://github.com/santex85/tariff-duty-mcp/issues",
+  "license": "MIT",
+  "keywords": [
+    "tariff",
+    "customs",
+    "hts",
+    "duty",
+    "import"
+  ],
+  "server": {
+    "type": "uv",
+    "entry_point": "src/server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${__dirname}",
+        "src/server.py"
+      ],
+      "env": {
+        "MCP_TRANSPORT": "stdio"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "search_hs_code",
+      "description": "Find candidate tariff classification codes for a product description."
+    },
+    {
+      "name": "get_duty_rate",
+      "description": "Import duty rates for one tariff code, optionally for a specific country of origin."
+    },
+    {
+      "name": "estimate_landed_cost",
+      "description": "Estimate import duty, taxes/fees and landed cost for one shipment line."
+    }
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ],
+    "runtimes": {
+      "python": ">=3.10"
+    }
+  }
+}
